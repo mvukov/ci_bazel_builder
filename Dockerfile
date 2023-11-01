@@ -2,11 +2,12 @@ FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ARG BAZELISK_VER=1.17.0
+ARG BAZELISK_VER=1.18.0
 ARG GCC_VER=11
 ARG CLANG_VER=14
 
 RUN apt update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     clang-$CLANG_VER \
     curl \
     gcc-$GCC_VER \

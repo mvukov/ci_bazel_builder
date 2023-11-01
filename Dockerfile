@@ -12,6 +12,7 @@ RUN apt update && apt-get install -y \
     gcc-$GCC_VER \
     g++-$GCC_VER \
     libatomic1 \
+    patch \
     python3
 
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-$CLANG_VER 100 \

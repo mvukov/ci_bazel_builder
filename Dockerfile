@@ -2,11 +2,11 @@ FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ARG BAZELISK_VER=1.17.0
+ARG BAZELISK_VER=1.18.0
 ARG GCC_VER=11
 ARG CLANG_VER=14
 
-RUN apt update && apt-get install -y \
+RUN apt update && apt-get install -y --no-install-recommends \
     clang-$CLANG_VER \
     curl \
     gcc-$GCC_VER \
@@ -14,7 +14,8 @@ RUN apt update && apt-get install -y \
     libatomic1 \
     lld-$CLANG_VER \
     patch \
-    python3
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-$CLANG_VER 100 \
     && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-$CLANG_VER 100 \

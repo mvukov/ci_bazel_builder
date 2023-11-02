@@ -14,6 +14,8 @@ WORKDIR /app
 ARG BAZELISK_VER=1.18.0
 RUN curl -L "https://github.com/bazelbuild/bazelisk/releases/download/v${BAZELISK_VER}/bazelisk-linux-amd64" -o bazelisk
 
+FROM ghcr.io/troglobit/mg:latest AS mg-stage
+
 FROM ubuntu:22.04 AS builder-stage
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -36,11 +38,13 @@ RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-$CLA
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-$GCC_VER 100 \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCC_VER 100
 
-COPY --from=golang-stage /app/fake_python /usr/local/bin/fake_python
-RUN ln -s /usr/local/bin/fake_python /usr/local/bin/python3
+COPY --from=golang-stage /app/fake_python /usr/bin/fake_python
+RUN ln -s /usr/bin/fake_python /usr/bin/python3
 
-COPY --from=curl-stage --chown=root:root --chmod=755 /app/bazelisk /usr/local/bin/bazelisk
-RUN ln -s /usr/local/bin/bazelisk /usr/local/bin/bazel
+COPY --from=curl-stage --chown=root:root --chmod=755 /app/bazelisk /usr/bin/bazelisk
+RUN ln -s /usr/bin/bazelisk /usr/bin/bazel
+
+COPY --from=mg-stage /usr/bin/mg /usr/bin/mg
 
 # Based on https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user
 ARG USERNAME=builder

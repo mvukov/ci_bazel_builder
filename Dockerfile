@@ -45,12 +45,3 @@ COPY --from=curl-stage --chown=root:root --chmod=755 /app/bazelisk /usr/bin/baze
 RUN ln -s /usr/bin/bazelisk /usr/bin/bazel
 
 COPY --from=mg-stage /usr/bin/mg /usr/bin/mg
-
-# Based on https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user
-ARG USERNAME=builder
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
-
-USER $USERNAME

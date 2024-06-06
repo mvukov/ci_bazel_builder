@@ -36,7 +36,8 @@ RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-$CLA
     && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-$CLANG_VER 100 \
     && update-alternatives --install /usr/bin/lld lld /usr/bin/lld-$CLANG_VER 100 \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-$GCC_VER 100 \
-    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCC_VER 100
+    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCC_VER 100 \
+    && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-$GCC_VER 100
 
 COPY --from=golang-stage /app/fake_python /usr/bin/fake_python
 RUN ln -s /usr/bin/fake_python /usr/bin/python3

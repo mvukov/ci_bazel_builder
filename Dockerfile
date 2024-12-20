@@ -11,7 +11,7 @@ FROM curlimages/curl:latest AS curl-stage
 
 WORKDIR /app
 
-ARG BAZELISK_VER=1.18.0
+ARG BAZELISK_VER=1.25.0
 RUN curl -L "https://github.com/bazelbuild/bazelisk/releases/download/v${BAZELISK_VER}/bazelisk-linux-amd64" -o bazelisk
 
 FROM ghcr.io/troglobit/mg:latest AS mg-stage
